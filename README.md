@@ -16,6 +16,7 @@ Options:
 ![Image test](https://github.com/scu-igroup/IP-location/blob/master/image/iplist.png)  
 
 ### 批量查询pcap文件中的IP地理信息  
+运行：python IP_location.py --pcapfile=./out.pcap –s  
 ![Image test](https://github.com/scu-igroup/IP-location/blob/master/image/pcap.png)  
 
 
