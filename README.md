@@ -1,6 +1,9 @@
 # IP-location
 batch query IP location information，批量查询IP地理位置信息  
 
+### 测试环境  
+Ubuntu 16.04 64bit  
+
 ### 工具详细信息打印  
 运行程序：python IP_location.py -h   
 ![Image test](https://github.com/scu-igroup/IP-location/blob/master/image/info.png)  
