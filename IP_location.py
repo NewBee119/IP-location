@@ -62,9 +62,9 @@ def parseIPlistLocation(IPfile):
         print "[error] %s" % err
 
 def printPcap(pcap, if_srcIp, if_dstIP):
-    flowList = [[] for i in range(20000000)]
+    flowList = [[] for i in range(20000)]
     counts = 0
-    countFlow = [0]*20000000
+    countFlow = [0]*20000
     isFlag = 0
     fout = open("out_IP.txt", "wb")   
     for (ts,buf) in pcap:
