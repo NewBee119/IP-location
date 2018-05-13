@@ -21,13 +21,14 @@ def checkTaobaoIP(ip, fout1, fout2, fout3, fout4):
         #sys.exit(1)
                       
         if data['data']['country'] == "中国":
-            print >>fout1, "%15s: %s-%s-%s-%s" % (ip,data['data']['country'],data['data']['region'],data['data']['city'],data['data']['county'])
-        if data['data']['region'] == "四川":
-            print >>fout2, "%15s: %s-%s-%s-%s" % (ip,data['data']['country'],data['data']['region'],data['data']['city'],data['data']['county'])
-        if data['data']['city'] == "成都":
-            print >>fout3, "%15s: %s-%s-%s-%s" % (ip,data['data']['country'],data['data']['region'],data['data']['city'],data['data']['county'])
-
-        return "%15s: %s-%s-%s-%s" % (ip,data['data']['country'],data['data']['region'],data['data']['city'],data['data']['county'])
+            print >>fout1, "%15s: %s-%s-%s" % (ip,data['data']['country'],data['data']['region'],data['data']['city'])
+        #if data['data']['region'] == "四川":
+            #print >>fout2, "%15s: %s-%s-%s-%s" % (ip,data['data']['country'],data['data']['region'],data['data']['city'],data['data']['county'])
+        #if data['data']['city'] == "成都":
+            #print >>fout3, "%15s: %s-%s-%s-%s" % (ip,data['data']['country'],data['data']['region'],data['data']['city'],data['data']['county'])
+        if data['data']['city'] == "内网IP":
+            return
+        return "%15s: %s-%s-%s" % (ip,data['data']['country'],data['data']['region'],data['data']['city'])
     except Exception,err:
         print "[error] %s" % err
         print >>fout4, "%s" %ip
@@ -50,8 +51,9 @@ def parseIPlistLocation(IPfile):
                 print line.encode('utf-8')
                 f.write(line.encode('utf-8')+'\n')
             else:
-                print line
-                f.write(line+'\n')
+                continue
+                #print line
+                #f.write(line+'\n')
         f.close()
         fout1.close()
         fout2.close()
@@ -62,9 +64,9 @@ def parseIPlistLocation(IPfile):
         print "[error] %s" % err
 
 def printPcap(pcap, if_srcIp, if_dstIP):
-    flowList = [[] for i in range(2000)]
+    flowList = [[] for i in range(20000)]
     counts = 0
-    countFlow = [0]*2000
+    countFlow = [0]*20000
     isFlag = 0
     fout = open("out_IP.txt", "wb")   
     for (ts,buf) in pcap:
@@ -75,6 +77,9 @@ def printPcap(pcap, if_srcIp, if_dstIP):
                 continue
             ip = eth.data
             if isinstance(ip.data, dpkt.icmp.ICMP):
+                #print "Not UDP Packet"  
+                continue         #filter tcp packets
+            if isinstance(ip.data, dpkt.igmp.IGMP):
                 #print "Not UDP Packet"  
                 continue         #filter tcp packets
             src = socket.inet_ntoa(ip.src)
@@ -198,7 +203,7 @@ if __name__ == "__main__":
             print "choose -s or -d"
             sys.exit(0)
         f = open(options.pcapfile)
-        pcap = dpkt.pcap.Reader(f)
+        pcap = dpkt.pcapng.Reader(f)
         printPcap(pcap, options.srcIP, options.dstIP)
         parseIPlistLocation("./out_IP.txt")
         sys.exit(0)
