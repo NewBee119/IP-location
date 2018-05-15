@@ -206,10 +206,7 @@ if __name__ == "__main__":
         try:
             pcap = dpkt.pcapng.Reader(f)
         except:
-            try:
-                pcap = dpkt.pcap.Reader(f)
-            except:
-                print "pcap file format is not right..."
+            pcap = dpkt.pcap.Reader(f)
         printPcap(pcap, options.srcIP, options.dstIP)
         parseIPlistLocation("./out_IP.txt")
         sys.exit(0)
