@@ -212,4 +212,5 @@ if __name__ == "__main__":
             pcap = dpkt.pcap.Reader(f)  
         printPcap(pcap, options.srcIP, options.dstIP)
         parseIPlistLocation("./out_IP.txt")
+        f.close()
         sys.exit(0)
