@@ -208,7 +208,6 @@ if __name__ == "__main__":
         except:
             print "it is not pcapng format..."
             f.close()
-        finally:
             f = open(options.pcapfile)
             pcap = dpkt.pcap.Reader(f)  
         printPcap(pcap, options.srcIP, options.dstIP)
